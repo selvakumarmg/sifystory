@@ -2,15 +2,11 @@
 import React from 'react';
 import {Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {NavigationContainer} from '@react-navigation/native';
+import Home from '../Home';
+import Collection from '../Collection';
+import images from '../../constants/images';
+import colors from '../../constants/colors';
 
-// Import your screen components
-import Home from '../pages/Home';
-import Search from '../pages/Search';
-import Collection from '../pages/Collection';
-import images from '../constants/images';
-
-// Create a bottom tab navigator
 const Tab = createBottomTabNavigator();
 
 const Dashboard = () => {
@@ -36,7 +32,7 @@ const Dashboard = () => {
         headerShown: false,
       })}
       tabBarOptions={{
-        activeTintColor: '#B0D201',
+        activeTintColor: colors.primary,
         inactiveTintColor: '#BDBDBD',
       }}>
       <Tab.Screen name="Home" component={Home} />

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
-import {saveNews} from '../services/dbHelpers/newsHelpers';
-import images from '../constants/images';
+import {saveNews} from '../../services/dbHelpers/newsHelpers';
+import images from '../../constants/images';
 
 interface Props {
   route: {
@@ -17,7 +17,7 @@ interface Props {
 
 const ViewFeed: React.FC<Props> = ({route, navigation}) => {
   const {title, description, urlToImage, publishedAt, content} = route.params;
-  const headerTxt = title.slice(0, 10)
+  const headerTxt = title.slice(0, 10);
   const [isSaved, setIsSaved] = useState(false);
 
   const handleSavePress = () => {
@@ -33,19 +33,27 @@ const ViewFeed: React.FC<Props> = ({route, navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             source={images.ic_back}
             style={{height: 24, width: 24, tintColor: '#FFF', marginLeft: 10}}
           />
         </TouchableOpacity>
-        <Text style={{color: '#FFF',fontSize:16,marginLeft: 10,fontWeight:'bold'}}>{headerTxt}</Text>
+        <Text
+          style={{
+            color: '#FFF',
+            fontSize: 16,
+            marginLeft: 10,
+            fontWeight: 'bold',
+          }}>
+          {headerTxt}
+        </Text>
       </View>
       <Image style={styles.newsImage} source={{uri: urlToImage}} />
-      <View style={{paddingHorizontal:15}}>
-      <Text style={styles.newsTitle}>{title}</Text>
-      <Text style={styles.newsDescription}>{description}</Text>
-      <Text style={styles.newsDescription}>{content}</Text>
+      <View style={{paddingHorizontal: 15}}>
+        <Text style={styles.newsTitle}>{title}</Text>
+        <Text style={styles.newsDescription}>{description}</Text>
+        <Text style={styles.newsDescription}>{content}</Text>
       </View>
     </View>
   );

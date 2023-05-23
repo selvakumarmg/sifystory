@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Alert,
   StyleSheet,
   Text,
   TextInput,
@@ -9,7 +8,7 @@ import {
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import colors from '../constants/colors';
+import colors from '../../constants/colors';
 import SQLite from 'react-native-sqlite-storage';
 
 const db = SQLite.openDatabase(

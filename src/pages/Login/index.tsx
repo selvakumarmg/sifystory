@@ -1,45 +1,34 @@
 import React from 'react';
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  Image,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import {View, TextInput, Text, TouchableOpacity} from 'react-native';
 import {useFormik} from 'formik';
 import * as yup from 'yup';
 import {HelperText} from 'react-native-paper';
 import {useDispatch} from 'react-redux';
-import colors from '../constants/colors';
+import colors from '../../constants/colors';
 import SQLite from 'react-native-sqlite-storage';
+import styles from './styles';
 
 const db = SQLite.openDatabase({name: 'mydatabase.db'});
 
+const validationSchema = yup.object({
+  email: yup.string().email('Invalid email').required('Email is required'),
+  password: yup.string().required('Password is required'),
+});
+
 const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
-  // Define validation schema using yup
-  const validationSchema = yup.object({
-    email: yup.string().email('Invalid email').required('Email is required'),
-    password: yup.string().required('Password is required'),
-  });
 
   const getUserDataByEmail = (email, callback) => {
     db.transaction(tx => {
-      // Execute the SELECT query
       tx.executeSql(
         'SELECT * FROM users WHERE email = ?',
         [email],
         (tx, results) => {
           const rows = results.rows;
           const userData = [];
-
-          // Iterate over the rows and extract the data
           for (let i = 0; i < rows.length; i++) {
             userData.push(rows.item(i));
           }
-
-          // Pass the retrieved data to the callback function
           callback(userData);
         },
         error => {
@@ -49,11 +38,9 @@ const LoginScreen = ({navigation}) => {
     });
   };
 
-  // Usage example
-  // Formik hook
   const {handleChange, handleSubmit, values, errors, touched, setErrors} =
     useFormik({
-      initialValues: {email: 'selva@gmail.com', password: '123456'},
+      initialValues: {email: '', password: ''},
       validationSchema,
       onSubmit: values => {
         getUserDataByEmail(values.email, userData => {
@@ -101,7 +88,6 @@ const LoginScreen = ({navigation}) => {
             onChangeText={handleChange('email')}
             value={values.email}
             placeholderTextColor="#BDBDBD"
-            // onBlur={handleChange('email')}
             style={styles.inputField}
           />
           {touched.email && errors.email && (
@@ -117,7 +103,6 @@ const LoginScreen = ({navigation}) => {
             style={styles.inputField}
             secureTextEntry
             placeholderTextColor="#BDBDBD"
-            // onBlur={handleChange('password')}
           />
           {touched.password && errors.password && (
             <HelperText type="error">{errors.password}</HelperText>
@@ -143,64 +128,3 @@ const LoginScreen = ({navigation}) => {
 };
 
 export default LoginScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#FFF',
-  },
-  loginCard: {
-    backgroundColor: '#fff',
-    width: 350,
-  },
-  logo: {
-    marginTop: 130,
-    alignItems: 'center',
-    marginBottom: 50,
-  },
-  logoImage: {
-    width: 120,
-  },
-  formGroup: {
-    marginBottom: 16,
-  },
-  inputField: {
-    width: '100%',
-    padding: 12,
-    color: colors.primary,
-    borderColor: '#dddfe2',
-    borderWidth: 1,
-    borderRadius: 4,
-    fontSize: 14,
-  },
-  loginButton: {
-    width: '100%',
-    padding: 12,
-    backgroundColor: colors.primary,
-    borderRadius: 4,
-    alignItems: 'center',
-  },
-  loginButtonText: {
-    color: '#fff',
-    fontSize: 14,
-  },
-  footer: {
-    marginTop: 24,
-    alignItems: 'center',
-  },
-  footerText: {
-    fontSize: 12,
-    color: '#65676b',
-  },
-  footerLink: {
-    color: colors.primary,
-    textDecorationLine: 'none',
-  },
-  text: {
-    color: colors.primary,
-    fontSize: 12,
-    position: 'absolute',
-    bottom: 20,
-  },
-});

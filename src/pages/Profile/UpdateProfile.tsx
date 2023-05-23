@@ -8,11 +8,11 @@ import {
   Image,
 } from 'react-native';
 import {Formik} from 'formik';
-import BottomSheet from '../components/BottomSheet';
-import colors from '../constants/colors';
+import BottomSheet from '../../components/BottomSheet';
+import colors from '../../constants/colors';
 import {useNavigation} from '@react-navigation/native';
-import {updateProfile} from '../services/dbHelpers/newsHelpers';
-import images from '../constants/images';
+import {updateProfile} from '../../services/dbHelpers/newsHelpers';
+import images from '../../constants/images';
 
 interface Profile {
   firstName: string;

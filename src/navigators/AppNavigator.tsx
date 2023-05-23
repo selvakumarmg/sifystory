@@ -4,7 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Dashboard from '../pages/Dashboard';
 import ViewFeed from '../pages/ViewFeed';
 import Profile from '../pages/Profile';
-import UpdateProfile from '../pages/UpdateProfile';
+import UpdateProfile from '../pages/Profile/UpdateProfile';
 
 const Stack = createStackNavigator();
 
